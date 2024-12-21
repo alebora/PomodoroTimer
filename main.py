@@ -52,7 +52,6 @@ def start_timer():
 def stop_timer():
     global pomodoro_state
     pomodoro_state["is_running"] = False
-    #return jsonify({"message": "Timer stopped."})
 
 @app.route('/reset', methods=['POST'])
 def reset_timer():
@@ -63,4 +62,4 @@ def reset_timer():
     return jsonify({"message": "Timer reset."})
 
 if __name__ == "__main__":
-    app.run() #debug=True)
+    app.run()
