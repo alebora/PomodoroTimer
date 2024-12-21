@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #FFF5E1;
+            color: #FF8C42;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-size: 64px;
+            font-weight: bold;
+            margin: 30px 0;
+            color: #FF6F3C;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #FF8C42;
+            color: #FFF;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #FF6F3C;
+        }
+
+        button:active {
+            background-color: #E05728;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pomodoro Timer</h1>
+    <div id="timer">00:00</div>
+
+    <div id="controls">
+        <button onclick="startTimer('work')">Start Work</button>
+        <button onclick="startTimer('short_break')">Short Break</button>
+        <button onclick="startTimer('long_break')">Long Break</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+
+    <script>
+        let countdownInterval;
+
+        async function startTimer(mode) {
+            clearInterval(countdownInterval); // Clear any previous intervals
+            const response = await fetch('/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mode })
+            });
+
+            const data = await response.json();
+            startCountdown(data.time_left);
+        }
+
+        async function stopTimer() {
+            clearInterval(countdownInterval); // Stop countdown
+            const response = await fetch('/stop', {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+            alert(data.message);
+        }
+
+        async function resetTimer() {
+            clearInterval(countdownInterval); // Stop countdown
+            const response = await fetch('/reset', {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+            alert(data.message);
+            updateTimer("00:00");
+        }
+
+        function updateTimer(time) {
+            document.getElementById('timer').textContent = time;
+        }
+
+        function startCountdown(initialTime) {
+            let timeLeft = parseTime(initialTime);
+            updateTimer(formatTime(timeLeft));
+
+            countdownInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    alert('Time is up!');
+                    return;
+                }
+                timeLeft--;
+                updateTimer(formatTime(timeLeft));
+            }, 1000);
+        }
+
+        function parseTime(timeString) {
+            const [minutes, seconds] = timeString.split(':').map(Number);
+            return minutes * 60 + seconds;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
