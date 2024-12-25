@@ -34,7 +34,7 @@ def index():
 @app.route('/start', methods=['POST'])
 def start_timer():
     global pomodoro_state
-    duration_map = {  
+    duration_map = {    
         "work": 25 * 60,  # 25 minutes
         "short_break": 5 * 60,  # 5 minutes
         "long_break": 15 * 60  # 15 minutes

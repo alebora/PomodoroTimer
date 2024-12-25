@@ -3,7 +3,7 @@
 ## Overview
 A quick and simple Pomodoro Timer.
 
-## Features
+## Features   
 - **Work Timer**: Dedicated timer for focused work sessions.
 - **Short Break Timer**: Short breaks to recharge between work sessions.
 - **Long Break Timer**: Extended breaks after several work sessions.
