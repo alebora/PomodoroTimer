@@ -1,7 +1,7 @@
 # Pomodoro Timer
 
 ## Overview
-The Pomodoro Timer is a simple, web-based productivity tool that helps you manage your work and break sessions effectively using the Pomodoro technique. Features a sleek orange-themed user interface and offers customizable timers for work, short breaks, and long breaks.
+A quick and simple Pomodoro Timer.
 
 ## Features
 - **Work Timer**: Dedicated timer for focused work sessions.
@@ -15,7 +15,7 @@ The Pomodoro Timer is a simple, web-based productivity tool that helps you manag
 
 ## Setup Instructions
 
-### Prerequisites
+### Prerequisites  
 Ensure you have the following installed:
 - Python 3.8+
 - Flask
